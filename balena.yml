@@ -1,7 +1,7 @@
 name: openthread-border-router
 description: >-
   a block implementing the Google OpenThread Border Router
-version: 0.0.1
+version: 1.0.0
 type: sw.block
 assets:
   repository:
