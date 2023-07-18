@@ -19,6 +19,8 @@ services:
      networks:
        ipv6net:
           ipv6_address: 2001:3984:3989::20
+     labels:
+       io.balena.features.kernel-modules: '1'
 
 #   coap_logger:
 #     build: ./coap_logger
