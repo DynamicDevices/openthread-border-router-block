@@ -1,0 +1,10 @@
+FROM openthread/otbr
+
+RUN apt update && apt -y install kmod
+
+# TODO - Clean apt cache
+
+COPY sleep.sh .
+COPY otbr-agent /etc/default
+
+CMD ./sleep.sh

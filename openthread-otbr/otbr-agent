@@ -1,0 +1,1 @@
+OTBR_AGENT_OPTS="-I wpan0 -B wlan0 -d7 spinel+hdlc+uart:///dev/ttyACM0 "

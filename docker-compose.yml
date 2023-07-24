@@ -2,7 +2,7 @@ version: '2'
 
 services:
    openthread_border_router:
-     image: openthread/otbr
+     build: ./openthread-otbr
      devices:
        - /dev/ttyACM0:/dev/ttyACM0
      sysctls:
