@@ -1,7 +1,8 @@
 name: openthread-border-router
 description: >-
   a block implementing the Google OpenThread Border Router
-version: 1.0.1
+# Seem to need to update this manually so the app picks up the new block?
+version: 1.0.7
 type: sw.block
 assets:
   repository:
@@ -16,9 +17,3 @@ data:
   defaultDeviceType: raspberrypi3
   supportedDeviceTypes:
     - raspberrypi4-64
-    - fincm3
-    - raspberrypi3
-    - raspberrypi3-64
-    - raspberrypi400-64
-    - intel-nuc
-    - genericx86-64-ext

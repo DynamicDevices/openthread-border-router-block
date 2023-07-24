@@ -5,39 +5,41 @@ services:
      build: ./openthread-otbr
      devices:
        - /dev/ttyACM0:/dev/ttyACM0
+     environment:
+       - RADIO_URL=""spinel+hdlc+uart:///dev/ttyACM0"
+       - BACKBONE_INTERFACE="wlan0"
      sysctls:
        net.ipv6.conf.all.disable_ipv6: 0
        net.ipv4.conf.all.forwarding: 1
        net.ipv6.conf.all.forwarding: 1
      ports:
-       - 8080:80
+       - 80:80
      dns:
        - 127.0.0.1
      privileged: true
-     command: ["--radio-url", "spinel+hdlc+uart:///dev/ttyACM0"]
-     # network_mode: host
-     networks:
-       ipv6net:
-          ipv6_address: 2001:3984:3989::20
-     # I'm not sure this is propagated through to fleet/app ?
+     network_mode: host
+#     networks:
+#       ipv6net:
+#          ipv6_address: 2001:3984:3989::20
+#     # I'm not sure this is propagated through to fleet/app ?
      labels:
        io.balena.features.kernel-modules: '1'
 
-#   coap_logger:
-#     build: ./coap_logger
-#     command: ["python", "coap_echo.py"]
-#     # network_mode: host
-#     networks:
-#      - ipv6net
-#     cap_add:
-#       - NET_ADMIN
-
-networks:
-   ipv6net:
-     driver: bridge
-     enable_ipv6: true
-     ipam:
-       driver: default
-       config:
-       - subnet: 2001:3984:3989::/64
-         gateway: 2001:3984:3989::1
+##   coap_logger:
+##     build: ./coap_logger
+##     command: ["python", "coap_echo.py"]
+##     # network_mode: host
+##     networks:
+##      - ipv6net
+##     cap_add:
+##       - NET_ADMIN
+#
+#networks:
+#   ipv6net:
+#     driver: bridge
+#     enable_ipv6: true
+#     ipam:
+#       driver: default
+#       config:
+#       - subnet: 2001:3984:3989::/64
+#         gateway: 2001:3984:3989::1
