@@ -2,7 +2,7 @@ name: openthread-border-router
 description: >-
   a block implementing the Google OpenThread Border Router
 # Seem to need to update this manually so the app picks up the new block?
-version: 1.0.7
+version: 1.1.1
 type: sw.block
 assets:
   repository:

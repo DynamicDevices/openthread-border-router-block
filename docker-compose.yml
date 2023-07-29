@@ -17,8 +17,8 @@ services:
      dns:
        - 127.0.0.1
      privileged: true
-     network_mode: host
-#     networks:
+#     network_mode: host
+#    networks:
 #       ipv6net:
 #          ipv6_address: 2001:3984:3989::20
 #     # I'm not sure this is propagated through to fleet/app ?
