@@ -14,8 +14,8 @@ services:
        net.ipv6.conf.all.forwarding: 1
      ports:
        - 80:80
-     dns:
-       - 127.0.0.1
+#     dns:
+#       - 127.0.0.1
      privileged: true
 #     network_mode: host
 #    networks:
