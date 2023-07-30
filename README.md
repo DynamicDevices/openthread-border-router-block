@@ -33,9 +33,9 @@ Use the settings in this image to conform to the MQTT-SN publication CLi example
 
 Until we have multicast advertising and `SEARCHGW` working properly you will need to go to the container and look at `ifconfig` to work out the IP address
 
-Here we can take the IP address of the eth0 interface or the wpan0 interface
+Here we can take the IP address of the wpan0 interface
 
-![image](https://github.com/DynamicDevices/openthread-border-router-block/assets/1537834/742bf821-0e4b-453f-b1ef-034e7f049dd1)
+![image](https://github.com/DynamicDevices/openthread-border-router-block/assets/1537834/62cedf1d-e734-4ced-89f8-8b75823f9086)
 
 Then compile the MQTT-SN enabled CLI publishing example as follows
 
