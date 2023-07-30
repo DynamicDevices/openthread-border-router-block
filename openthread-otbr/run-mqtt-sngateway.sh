@@ -10,11 +10,14 @@ sed -i "s/ENV_MULTICAST_HOPS/${MULTICAST_IPV6_HOPS}/" gateway.conf
 
 export LD_LIBRARY_PATH=.
 
-if [ -z "${SENSORNET}" ]
+if [ x"x${RUN_MQTTSN_GATEWAY}" == "x1" ]
 then
-  ./MQTT-SNGateway.udp
-else
-  ./MQTT-SNGateway.${SENSORNET}
+ if [ -z "${SENSORNET}" ]
+ then
+   ./MQTT-SNGateway.udp
+ else
+   ./MQTT-SNGateway.${SENSORNET}
+ fi
 fi
 
 

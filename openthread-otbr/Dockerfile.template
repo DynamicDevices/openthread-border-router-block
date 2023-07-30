@@ -124,7 +124,7 @@ RUN cd ~ && pwd && ls -la
 
 COPY run-mqtt-sngateway.sh /app
 COPY *.conf.in /app/
-#CMD ./run-mqtt-sngateway.sh
+CMD ./run-mqtt-sngateway.sh
 
 # --- END MQTT-SNGATEWAY
 
