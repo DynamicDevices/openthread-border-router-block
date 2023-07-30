@@ -1,3 +1,8 @@
+# Deploy to Balena
+
+[![balena deploy button](https://www.balena.io/deploy.svg)](https://dashboard.balena-cloud.com/deploy)
+
+# Overview
 
 This repository provides a container for the OpenThread Border Router.
 
@@ -24,14 +29,6 @@ Use the settings in this image to conform to the MQTT-SN publication CLi example
   
 ![image](https://github.com/DynamicDevices/openthread-border-router-block/assets/1537834/4c6f6e93-cbde-4bdd-b5a5-1df614e700c6)
 
+# Building CLI test firmware
+
 Until we have multicast advertising and SEARCHGW working properly you will need to go to the container and look at `ifconfig` to work out the IP address
-
-
-TODO:
-- Images for webui
-- Details on forming gateway for default CLI MQTT-SN build
-- Testing
-
-# Deploy to Balena
-
-[![balena deploy button](https://www.balena.io/deploy.svg)](https://dashboard.balena-cloud.com/deploy)
