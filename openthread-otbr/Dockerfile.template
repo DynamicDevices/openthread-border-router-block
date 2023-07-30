@@ -124,7 +124,6 @@ RUN cd ~ && pwd && ls -la
 
 COPY run-mqtt-sngateway.sh /app
 COPY *.conf.in /app/
-CMD ./run-mqtt-sngateway.sh
 
 # --- END MQTT-SNGATEWAY
 
@@ -142,4 +141,6 @@ CMD ./run-mqtt-sngateway.sh
 #    && rm -rf /var/lib/apt/lists/* \
 #  ))
 
-ENTRYPOINT ["/app/etc/docker/docker_entrypoint.sh"]
+COPY docker_entrypoint.sh /app
+
+ENTRYPOINT ["/app/docker_entrypoint.sh"]
