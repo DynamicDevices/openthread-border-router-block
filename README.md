@@ -31,4 +31,4 @@ Use the settings in this image to conform to the MQTT-SN publication CLi example
 
 # Building CLI test firmware
 
-Until we have multicast advertising and SEARCHGW working properly you will need to go to the container and look at `ifconfig` to work out the IP address
+Until we have multicast advertising and `SEARCHGW` working properly you will need to go to the container and look at `ifconfig` to work out the IP address
