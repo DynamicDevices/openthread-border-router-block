@@ -15,6 +15,18 @@ In addition you need to set `RUN_MQTT_SNGATWAY=1` to start up the gateway proces
 
 Then the OpenThread Border Router web interface will run up on port 80 and you can `Form` or `Join` a network.
 
+Use the settings in this image to conform to the MQTT-SN publication CLi example you can use [here](https://github.com/DynamicDevices/openthread/tree/ajl/adding-examples/examples/apps/mqtt-snpublish)
+
+- PAN 0x4444
+- Extended PAN 3333333344444444
+- Network Key (used to be called Master Key) 33334444333344443333444433334444
+- Channel 15
+  
+![image](https://github.com/DynamicDevices/openthread-border-router-block/assets/1537834/4c6f6e93-cbde-4bdd-b5a5-1df614e700c6)
+
+Until we have multicast advertising and SEARCHGW working properly you will need to go to the container and look at `ifconfig` to work out the IP address
+
+
 TODO:
 - Images for webui
 - Details on forming gateway for default CLI MQTT-SN build
