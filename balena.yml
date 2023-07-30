@@ -14,6 +14,17 @@ assets:
     data:
       url: 'https://raw.githubusercontent.com/balenablocks/browser/master/logo.png'
 data:
-  defaultDeviceType: raspberrypi3
+  applicationEnvironmentVariables:
+    - RUN_MQTT-SNGATEWAY:1
+    - SENSORNET: udp
+    - BROKER_NAME: mqtt.eclipseprojects.io
+    - BROKER_PORT: 1883
+    - BROKER_SECURE_PORT: 8883
+    - GATEWAY_PORT: 10000
+    - GATEWAY_IPV6_PORT: 10000
+    - MULTICAST_IPV6_IF: wpan00
+    - MULTICAST_HOPS: 3
+  defaultDeviceType: raspberrypi3 raspberrypi4-64
   supportedDeviceTypes:
+    - raspberrypi3
     - raspberrypi4-64

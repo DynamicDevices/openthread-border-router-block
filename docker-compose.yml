@@ -4,10 +4,20 @@ services:
    openthread_border_router:
      build: ./openthread-otbr
      devices:
+# You need to set the correct USB device to use for the OpenThread RCP dongle here
        - /dev/ttyACM0:/dev/ttyACM0
      environment:
+# You need to set the correct USB device to use for the OpenThread RCP dongle here
        - RADIO_URL=""spinel+hdlc+uart:///dev/ttyACM0"
-       - BACKBONE_INTERFACE="wlan0"
+# You need to set the correct backbone interface for routing here e.g. wlan0 or eth0
+       - BACKBONE_INTERFACE="wpan0"
+# Support for MQTT-SN in this container
+       - SENSORNET=udp6
+       - ENV_BROKER_NAME=mqtt.dynamicdevices.co.uk
+       - ENV_BROKER_PORT=1883
+       - ENV_BROKER_SECURE_PORT=8883
+       - ENV_GATEWAY_PORT=10000
+       - ENV_GATEWAY_IPV6_PORT=10000
      sysctls:
        net.ipv6.conf.all.disable_ipv6: 0
        net.ipv4.conf.all.forwarding: 1

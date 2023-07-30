@@ -97,18 +97,49 @@ RUN ./script/bootstrap
 COPY . .
 RUN ./script/setup
 
-RUN ([ "${DNS64}" = "0" ] || chmod 644 /etc/bind/named.conf.options) \
-  && ([ "${OT_BACKBONE_CI}" = "1" ] || ( \
-    mv ./script /tmp \
-    && mv ./etc /tmp \
-    && find . -delete \
-    && rm -rf /usr/include \
-    && mv /tmp/script . \
-    && mv /tmp/etc . \
-    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $OTBR_DOCKER_DEPS \
-    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $OTBR_BUILD_DEPS  \
-    && ([ "${RELEASE}" = 1 ] ||  apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false "$OTBR_NORELEASE_DEPS";) \
-    && rm -rf /var/lib/apt/lists/* \
-  ))
+#
+# --- BEGIN MQTT-SNGATEWAY
+#
+# TODO: We put MQTT-SNGateway in this container as I haven't worked out how to route mesh packets from wpan0 between containers
+RUN apt update && apt -y install git cmake libbluetooth-dev
+
+RUN git clone https://github.com/eclipse/paho.mqtt-sn.embedded-c.git 
+RUN cd paho.mqtt-sn.embedded-c && git checkout 59797127e7f3d024de576555cd4232c68e874ac6
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh udp
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway /app/MQTT-SNGateway.udp &&  cp ../build.gateway/MQTTSNPacket/src/libMQTTSNPacket.so /app/libMQTTSNPacket.so && cp ./bin/MQTT-SNLogmonitor /app/MQTT-SNLogmonitor.udp
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh udp6
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway /app/MQTT-SNGateway.udp6 &&  cp ./bin/MQTT-SNLogmonitor /app/MQTT-SNLogmonitor.udp6
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh dtls
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway /app/MQTT-SNGateway.dtls &&  cp ./bin/MQTT-SNLogmonitor /app/MQTT-SNLogmonitor.dtls
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh dtls6
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway /app/MQTT-SNGateway.dtls6 &&  cp ./bin/MQTT-SNLogmonitor /app/MQTT-SNLogmonitor.dtls6
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh xbee
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway /app/MQTT-SNGateway.xbee &&  cp ./bin/MQTT-SNLogmonitor /app/MQTT-SNLogmonitor.xbee
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh loralink
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway /app/MQTT-SNGateway.loralink &&  cp ./bin/MQTT-SNLogmonitor /app/MQTT-SNLogmonitor.loralink
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh rfcomm
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway /app/MQTT-SNGateway.rfcomm &&  cp ./bin/MQTT-SNLogmonitor /app/MQTT-SNLogmonitor.rfcomm
+
+RUN cd ~ && pwd && ls -la
+
+COPY run-mqtt-sngateway.sh /app
+COPY *.conf.in /app/
+#CMD ./run-mqtt-sngateway.sh
+
+# --- END MQTT-SNGATEWAY
+
+#RUN ([ "${DNS64}" = "0" ] || chmod 644 /etc/bind/named.conf.options) \
+#  && ([ "${OT_BACKBONE_CI}" = "1" ] || ( \
+#    mv ./script /tmp \
+#    && mv ./etc /tmp \
+#    && find . -delete \
+#    && rm -rf /usr/include \
+#    && mv /tmp/script . \
+#    && mv /tmp/etc . \
+#    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $OTBR_DOCKER_DEPS \
+#    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $OTBR_BUILD_DEPS  \
+#    && ([ "${RELEASE}" = 1 ] ||  apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false "$OTBR_NORELEASE_DEPS";) \
+#    && rm -rf /var/lib/apt/lists/* \
+#  ))
 
 ENTRYPOINT ["/app/etc/docker/docker_entrypoint.sh"]
