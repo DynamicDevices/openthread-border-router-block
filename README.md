@@ -29,6 +29,30 @@ Use the settings in this image to conform to the MQTT-SN publication CLi example
   
 ![image](https://github.com/DynamicDevices/openthread-border-router-block/assets/1537834/4c6f6e93-cbde-4bdd-b5a5-1df614e700c6)
 
-# Building CLI test firmware
+# Building CLI test firmware for Nordic nrf52840
 
 Until we have multicast advertising and `SEARCHGW` working properly you will need to go to the container and look at `ifconfig` to work out the IP address
+
+Here we can take the IP address of the eth0 interface or the wpan0 interface
+
+![image](https://github.com/DynamicDevices/openthread-border-router-block/assets/1537834/742bf821-0e4b-453f-b1ef-034e7f049dd1)
+
+Then compile the MQTT-SN enabled CLI publishing example as follows
+
+```
+$ git clone https://github.com/openthread/ot-nrf528xx.git
+$ cd ot-nrf528xx && rm -Rf openthread
+$ git clone https://github.com/DynamicDevices/openthread.git -b ajl/adding-examples
+$ nano openthread/examples/apps/mqtt-snpublish/main.c 
+```
+
+Change the `GATEWEAY_ADDRESS` to the one for your OTBR (NOTE: In future we want to automatically detect this)
+
+![image](https://github.com/DynamicDevices/openthread-border-router-block/assets/1537834/ce1777e1-8395-449b-b9f4-b07f255027f0)
+
+```
+$ ./script/build nrf52840 USB_trans -DOT_BOOTLOADER=USB -DOT_MQTT=ON -DOT_JOINER=ON -DOT_RCP_RESTORATION_MAX_COUNT=0 -DOT_LOG_LEVEL=WARN -DOT_UPTIME=ENABLED
+$ arm-none-eabi-objcopy -O ihex build/bin/ot-cli-ftd-mqttsn-publish build/bin/ot-cli-ftd-mqttsn-publish.hex
+```
+
+Then use the Nordic programmer to program your dongle with the hex file
