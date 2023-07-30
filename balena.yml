@@ -8,7 +8,7 @@ assets:
   repository:
     type: blob.asset
     data:
-      url: 'https://github.com/DynamicDevices/balena-openthread-border-router'
+      url: 'https://github.com/DynamicDevices/openthread-border-router-block'
   logo:
     type: blob.asset
     data:
