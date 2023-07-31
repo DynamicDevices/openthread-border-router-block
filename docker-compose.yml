@@ -8,9 +8,9 @@ services:
        - /dev/ttyACM0:/dev/ttyACM0
      environment:
 # You need to set the correct USB device to use for the OpenThread RCP dongle here
-       - RADIO_URL=""spinel+hdlc+uart:///dev/ttyACM0"
+       - RADIO_URL="spinel+hdlc+uart:///dev/ttyACM0"
 # You need to set the correct backbone interface for routing here e.g. wlan0 or eth0
-       - BACKBONE_INTERFACE="wpan0"
+       - BACKBONE_INTERFACE="eth0"
 # Support for MQTT-SN in this container
        - SENSORNET=udp6
        - ENV_BROKER_NAME=mqtt.dynamicdevices.co.uk

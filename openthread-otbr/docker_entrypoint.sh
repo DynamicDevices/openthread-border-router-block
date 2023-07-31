@@ -1,3 +1,4 @@
+#!/bin/bash
 
 /app/run-mqtt-sngateway.sh &
 
