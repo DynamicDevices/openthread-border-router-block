@@ -16,7 +16,7 @@ assets:
 data:
   applicationEnvironmentVariables:
     - RUN_MQTT_SNGATEWAY: 1
-    - SENSORNET: udp
+    - SENSORNET: udp6
     - BROKER_NAME: mqtt.eclipseprojects.io
     - BROKER_PORT: 1883
     - BROKER_SECURE_PORT: 8883
