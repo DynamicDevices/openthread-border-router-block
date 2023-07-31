@@ -42,7 +42,7 @@ Then compile the MQTT-SN enabled CLI publishing example as follows
 ```
 $ git clone https://github.com/openthread/ot-nrf528xx.git
 $ cd ot-nrf528xx && rm -Rf openthread
-$ git clone https://github.com/DynamicDevices/openthread.git -b ajl/adding-examples
+$ git clone --recursive https://github.com/DynamicDevices/openthread.git -b ajl/adding-examples
 $ nano openthread/examples/apps/mqtt-snpublish/main.c 
 ```
 
