@@ -22,7 +22,7 @@ data:
     - BROKER_SECURE_PORT: 8883
     - GATEWAY_PORT: 10000
     - GATEWAY_IPV6_PORT: 10000
-    - MULTICAST_IPV6: ff03::2
+    - MULTICAST_IPV6: ff05::1
     - MULTICAST_IPV6_IF: wpan0
     - MULTICAST_HOPS: 3
   defaultDeviceType: raspberrypi4-64
