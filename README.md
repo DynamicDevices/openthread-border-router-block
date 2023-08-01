@@ -51,8 +51,9 @@ Change the `GATEWEAY_ADDRESS` to the one for your OTBR (NOTE: In future we want 
 ![image](https://github.com/DynamicDevices/openthread-border-router-block/assets/1537834/ce1777e1-8395-449b-b9f4-b07f255027f0)
 
 ```
-$ ./script/build nrf52840 USB_trans -DOT_BOOTLOADER=USB -DOT_MQTT=ON -DOT_JOINER=ON -DOT_RCP_RESTORATION_MAX_COUNT=0 -DOT_LOG_LEVEL=WARN -DOT_UPTIME=ENABLED
+$ ./script/build nrf52840 USB_trans -DOT_BOOTLOADER=USB -DOT_MQTT=ON -DOT_JOINER=ON -DOT_RCP_RESTORATION_MAX_COUNT=0 -DOT_LOG_LEVEL=WARN -DOT_UPTIME=ENABLED -DUDP_FORWARD=ON
 $ arm-none-eabi-objcopy -O ihex build/bin/ot-cli-ftd-mqttsn-publish build/bin/ot-cli-ftd-mqttsn-publish.hex
+$ arm-none-eabi-objcopy -O ihex build/bin/ot-cli-ftd-mqttsn-searchgw build/bin/ot-cli-ftd-mqttsn-searchgw.hex
 ```
 
 Then use the Nordic programmer to program your dongle with the hex file
