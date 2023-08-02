@@ -2,6 +2,10 @@
 
 [![balena deploy button](https://www.balena.io/deploy.svg)](https://dashboard.balena-cloud.com/deploy)
 
+The default device variables setup from `balena.yml` should be correct but these work here
+
+![image](https://github.com/DynamicDevices/openthread-border-router-block/assets/1537834/e3ae3e78-527d-425d-82e8-d3412602fa55)
+
 # Overview
 
 This repository provides a container for the OpenThread Border Router.
