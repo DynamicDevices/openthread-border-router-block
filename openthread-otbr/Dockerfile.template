@@ -129,6 +129,7 @@ RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway /app/MQT
 RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh rfcomm
 RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway /app/MQTT-SNGateway.rfcomm &&  cp ./bin/MQTT-SNLogmonitor /app/MQTT-SNLogmonitor.rfcomm
 
+COPY wait-for-otbr.sh /app
 COPY run-mqtt-sngateway.sh /app
 COPY *.conf.in /app/
 
