@@ -64,3 +64,7 @@ $ arm-none-eabi-objcopy -O ihex build/bin/ot-cli-ftd-mqttsn-searchgw build/bin/o
 ```
 
 Then use the Nordic programmer to program your dongle with the hex file
+
+Running the `ot-cli-ftd-mqttsn-searchgw` CLI code against the OTBR running the MQTT-SN Gateway results in serial logs like this
+
+![image](https://github.com/DynamicDevices/openthread-border-router-block/assets/1537834/e8955a03-f387-4021-9bd7-b4211f820551)
