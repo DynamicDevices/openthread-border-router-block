@@ -103,8 +103,17 @@ RUN ./script/setup
 # TODO: We put MQTT-SNGateway in this container as I haven't worked out how to route mesh packets from wpan0 between containers
 RUN apt update && apt -y install git cmake libbluetooth-dev
 
-RUN git clone https://github.com/eclipse/paho.mqtt-sn.embedded-c.git 
-RUN cd paho.mqtt-sn.embedded-c && git checkout 59797127e7f3d024de576555cd4232c68e874ac6
+#RUN git clone https://github.com/eclipse/paho.mqtt-sn.embedded-c.git 
+#RUN cd paho.mqtt-sn.embedded-c && git checkout 59797127e7f3d024de576555cd4232c68e874ac6
+
+# AJL - Use my fork with UDP6 broadcast/multicast fix
+RUN git clone https://github.com/DynamicDevices/paho.mqtt-sn.embedded-c.git -b ajl/fix-debug-ipv6-addr-output
+RUN cd paho.mqtt-sn.embedded-c && git checkout bd99ee2
+
+# Enable DEBUG output
+#RUN sed -i 's|//#define DEBUG_MQTTSN |#define DEBUG_MQTTSN|' paho.mqtt-sn.embedded-c/MQTTSNGateway/src/MQTTSNGWDefines.h
+#RUN sed -i 's|//#define DEBUG_NW |#define DEBUG_NW|' paho.mqtt-sn.embedded-c/MQTTSNGateway/src/MQTTSNGWDefines.h
+
 RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh udp
 RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway /app/MQTT-SNGateway.udp &&  cp ../build.gateway/MQTTSNPacket/src/libMQTTSNPacket.so /app/libMQTTSNPacket.so && cp ./bin/MQTT-SNLogmonitor /app/MQTT-SNLogmonitor.udp
 RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh udp6
@@ -119,8 +128,6 @@ RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh loralink
 RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway /app/MQTT-SNGateway.loralink &&  cp ./bin/MQTT-SNLogmonitor /app/MQTT-SNLogmonitor.loralink
 RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh rfcomm
 RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway /app/MQTT-SNGateway.rfcomm &&  cp ./bin/MQTT-SNLogmonitor /app/MQTT-SNLogmonitor.rfcomm
-
-RUN cd ~ && pwd && ls -la
 
 COPY run-mqtt-sngateway.sh /app
 COPY *.conf.in /app/
