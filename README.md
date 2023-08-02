@@ -41,10 +41,13 @@ Then compile the MQTT-SN enabled CLI publishing example as follows
 
 ```
 $ git clone https://github.com/openthread/ot-nrf528xx.git
+$ git checkout 6082546fc0ab9ce4437fdf6f84583e51343372c0
 $ cd ot-nrf528xx && rm -Rf openthread
 $ git clone --recursive https://github.com/DynamicDevices/openthread.git -b ajl/adding-examples
 $ nano openthread/examples/apps/mqtt-snpublish/main.c 
 ```
+
+NOTE: There have been dependabot commits which break the build hence the checkout is needed until we work out why
 
 Change the `GATEWEAY_ADDRESS` to the one for your OTBR (NOTE: In future we want to automatically detect this)
 
