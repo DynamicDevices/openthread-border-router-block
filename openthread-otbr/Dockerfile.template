@@ -90,12 +90,24 @@ RUN apt-get update \
   && ln -fs /usr/share/zoneinfo/UTC /etc/localtime
 
 #COPY ./script /app/script
-RUN git clone https://github.com/openthread/ot-br-posix.git /app
 WORKDIR /app
+RUN git clone https://github.com/openthread/ot-br-posix.git /app
+RUN git checkout 54f465f432cc7177cd7d59b68815b1c18ddc81d3
+
+# Patch OTBR so that REST API runs on 8080 in order that we can access it through public Balena URL
+#RUN sed -i 's/8081/8080/' src/web/web-service/frontend/res/js/app.js
+#RUN sed -i 's/8081/8080/' src/agent/main.cpp
 
 RUN ./script/bootstrap
-COPY . .
 RUN ./script/setup
+
+# Tidy up
+#RUN   mv ./script /tmp
+#RUN  mv ./etc /tmp
+#RUN  find . -delete
+#RUN  rm -rf /usr/include
+#RUN  mv /tmp/script .
+#RUN  mv /tmp/etc .
 
 #
 # --- BEGIN MQTT-SNGATEWAY
@@ -107,10 +119,15 @@ RUN apt update && apt -y install git cmake libbluetooth-dev
 #RUN cd paho.mqtt-sn.embedded-c && git checkout 59797127e7f3d024de576555cd4232c68e874ac6
 
 # AJL - Use my fork with UDP6 broadcast/multicast fix
+WORKDIR /app
 RUN git clone https://github.com/DynamicDevices/paho.mqtt-sn.embedded-c.git -b ajl/fix-debug-ipv6-addr-output
 RUN cd paho.mqtt-sn.embedded-c && git checkout bd99ee2
 
+COPY docker_entrypoint.sh /app
+ENTRYPOINT ["/app/docker_entrypoint.sh"]
+
 # Enable DEBUG output
+
 #RUN sed -i 's|//#define DEBUG_MQTTSN |#define DEBUG_MQTTSN|' paho.mqtt-sn.embedded-c/MQTTSNGateway/src/MQTTSNGWDefines.h
 #RUN sed -i 's|//#define DEBUG_NW |#define DEBUG_NW|' paho.mqtt-sn.embedded-c/MQTTSNGateway/src/MQTTSNGWDefines.h
 
@@ -133,22 +150,11 @@ COPY wait-for-otbr.sh /app
 COPY run-mqtt-sngateway.sh /app
 COPY *.conf.in /app/
 
+# Tidy up
+RUN  apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $OTBR_DOCKER_DEPS
+RUN  apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $OTBR_BUILD_DEPS
+#RUN  apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false "$OTBR_NORELEASE_DEPS"
+RUN rm -rf /var/lib/apt/lists/*
+
 # --- END MQTT-SNGATEWAY
 
-#RUN ([ "${DNS64}" = "0" ] || chmod 644 /etc/bind/named.conf.options) \
-#  && ([ "${OT_BACKBONE_CI}" = "1" ] || ( \
-#    mv ./script /tmp \
-#    && mv ./etc /tmp \
-#    && find . -delete \
-#    && rm -rf /usr/include \
-#    && mv /tmp/script . \
-#    && mv /tmp/etc . \
-#    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $OTBR_DOCKER_DEPS \
-#    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $OTBR_BUILD_DEPS  \
-#    && ([ "${RELEASE}" = 1 ] ||  apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false "$OTBR_NORELEASE_DEPS";) \
-#    && rm -rf /var/lib/apt/lists/* \
-#  ))
-
-COPY docker_entrypoint.sh /app
-
-ENTRYPOINT ["/app/docker_entrypoint.sh"]
