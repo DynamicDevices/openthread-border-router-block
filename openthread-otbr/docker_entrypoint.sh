@@ -1,5 +1,20 @@
 #!/bin/bash
 
-/app/wait-for-otbr.sh &
+# Run up OTBR services
+/app/etc/docker/docker_entrypoint.sh &
 
-/app/etc/docker/docker_entrypoint.sh
+# TODO: Work out how to know OTBR is up
+sleep 10
+
+# Optionally form the network
+/app/form-network.sh
+
+# Run MQTT-SN Gateway
+/app/run-mqtt-sngateway.sh
+
+# Block so the container doesn't exit
+while [ 1 ]
+do
+ sleep 10
+done
+

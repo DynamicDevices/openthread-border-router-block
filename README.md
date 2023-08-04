@@ -30,7 +30,18 @@ Use the settings in this image to conform to the MQTT-SN publication CLi example
 - Extended PAN 3333333344444444
 - Network Key (used to be called Master Key) 33334444333344443333444433334444
 - Channel 15
-  
+
+If you want to automatically form a network you can set Balena Device Variables
+
+| Variable | Description | Default |
+| -------- | ----------- | ------- |
+| AUTO_FORM_NETWORK | Automatically form on startup | 1 |
+| THREAD_PAN_ID | | 0x4444 |
+| THREAD_EXT_PAN_ID | | 3333333344444444 |
+| THREAD_NETWORK_NAME | | INST |
+| THREAD_NETWORK_KEY | | 33334444333344443333444433334444 |
+| THREAD_IPV6_PREFIX: | | fd11:22::/64 pasor |
+
 ![image](https://github.com/DynamicDevices/openthread-border-router-block/assets/1537834/4c6f6e93-cbde-4bdd-b5a5-1df614e700c6)
 
 # Building CLI test firmware for Nordic nrf52840
@@ -44,16 +55,8 @@ Here we can take the IP address of the wpan0 interface
 Then compile the MQTT-SN enabled CLI publishing example as follows
 
 ```
-$ git clone https://github.com/openthread/ot-nrf528xx.git
-$ git checkout 6082546fc0ab9ce4437fdf6f84583e51343372c0
-$ cd ot-nrf528xx && rm -Rf openthread
-$ git clone --recursive https://github.com/DynamicDevices/openthread.git -b ajl/adding-examples
-$ nano openthread/examples/apps/mqtt-snpublish/main.c 
+$ git clone https://github.com/DynamicDevices/ot-nrf528xx.git
 ```
-
-NOTE: There have been dependabot commits which break the build hence the checkout is needed until we work out why
-
-Change the `GATEWEAY_ADDRESS` to the one for your OTBR (NOTE: In future we want to automatically detect this)
 
 ![image](https://github.com/DynamicDevices/openthread-border-router-block/assets/1537834/ce1777e1-8395-449b-b9f4-b07f255027f0)
 
