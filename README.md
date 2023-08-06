@@ -36,6 +36,7 @@ If you want to automatically form a network you can set Balena Device Variables
 | Variable | Description | Default |
 | -------- | ----------- | ------- |
 | AUTO_FORM_NETWORK | Automatically form on startup | 1 |
+| THREAD_CHANNEL | | 15 |
 | THREAD_PAN_ID | | 0x4444 |
 | THREAD_EXT_PAN_ID | | 3333333344444444 |
 | THREAD_NETWORK_NAME | | INST |
