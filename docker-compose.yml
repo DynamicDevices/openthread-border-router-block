@@ -42,7 +42,7 @@ services:
        net.ipv6.conf.all.forwarding: 1
      ports:
        - 80:80
-       - 8080:8080
+       - 8081:8081
      privileged: true
      labels:
        io.balena.features.kernel-modules: '1'
