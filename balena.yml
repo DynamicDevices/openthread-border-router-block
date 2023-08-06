@@ -30,7 +30,8 @@ data:
     - THREAD_PAN_ID: 0x4444
     - THREAD_EXT_PAN_ID: 3333333344444444
     - THREAD_NETWORK_NAME: INST
-    - THREAD_NETWORK_KEY: 33334444333344443333444433334444
+# Needs to be a string or Balena deploy converts the number to scientific notation
+    - THREAD_NETWORK_KEY: "33334444333344443333444433334444"
     - THREAD_IPV6_PREFIX: fd11:22::/64 pasor
   defaultDeviceType: raspberrypi4-64
   supportedDeviceTypes:
