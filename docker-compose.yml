@@ -1,6 +1,24 @@
 version: '2'
 
 services:
+   mqtt-sngateway:
+     image: bh.cr/gh_ajlennon/mqttsn-gateway
+     sysctls:
+       net.ipv6.conf.all.disable_ipv6: 0
+       net.ipv4.conf.all.forwarding: 1
+       net.ipv6.conf.all.forwarding: 1
+     ports:
+       - 10000:10000
+     expose:
+       - 10000/udp
+     privileged: true
+     labels:
+       io.balena.features.kernel-modules: '1'
+     networks:
+       customnet:
+         ipv4_address: 172.28.0.2
+         ipv6_address: 2001:3984:3989::20
+
    openthread_border_router:
      build: ./openthread-otbr
      devices:
@@ -11,7 +29,7 @@ services:
        - RADIO_URL="spinel+hdlc+uart:///dev/ttyACM0"
 # You need to set the correct backbone interface for routing here e.g. wlan0 or eth0
        - BACKBONE_INTERFACE="eth0"
-# Support for MQTT-SN in this container
+# Support for MQTT-SN in this container - TODO: We want to remove this!
        - SENSORNET=udp6
        - ENV_BROKER_NAME=mqtt.dynamicdevices.co.uk
        - ENV_BROKER_PORT=1883

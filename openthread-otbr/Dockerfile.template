@@ -89,10 +89,12 @@ RUN apt-get update \
   && ([ "${OT_BACKBONE_CI}" != "1" ] || apt-get install --no-install-recommends -y $OTBR_OT_BACKBONE_CI_DEPS) \
   && ln -fs /usr/share/zoneinfo/UTC /etc/localtime
 
+# Use my fork which has otbr-web on backbone not tun i/f
 #COPY ./script /app/script
 WORKDIR /app
+#RUN git clone https://github.com/DynamicDevices/ot-br-posix.git /app
+#RUN git checkout f2993f7
 RUN git clone https://github.com/openthread/ot-br-posix.git /app
-RUN git checkout 54f465f432cc7177cd7d59b68815b1c18ddc81d3
 
 # Patch OTBR so that REST API runs on 8080 in order that we can access it through public Balena URL
 #RUN sed -i 's/8081/8080/' src/web/web-service/frontend/res/js/app.js
@@ -101,12 +103,12 @@ RUN git checkout 54f465f432cc7177cd7d59b68815b1c18ddc81d3
 RUN ./script/bootstrap
 RUN ./script/setup
 
-# Tidy up
-#RUN   mv ./script /tmp
-#RUN  mv ./etc /tmp
-#RUN  find . -delete
-#RUN  rm -rf /usr/include
-#RUN  mv /tmp/script .
+COPY wait-for-otbr.sh /app
+COPY form-network.sh /app
+COPY docker_entrypoint.sh /app
+
+ENTRYPOINT ["/app/docker_entrypoint.sh"]
+
 #RUN  mv /tmp/etc .
 
 #
@@ -158,4 +160,3 @@ RUN  apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=fals
 RUN rm -rf /var/lib/apt/lists/*
 
 # --- END MQTT-SNGATEWAY
-
