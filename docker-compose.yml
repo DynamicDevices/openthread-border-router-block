@@ -1,23 +1,23 @@
 version: '2'
 
 services:
-   mqtt-sngateway:
-     image: bh.cr/gh_ajlennon/mqttsn-gateway
-     sysctls:
-       net.ipv6.conf.all.disable_ipv6: 0
-       net.ipv4.conf.all.forwarding: 1
-       net.ipv6.conf.all.forwarding: 1
-     ports:
-       - 10000:10000
-     expose:
-       - 10000/udp
-     privileged: true
-     labels:
-       io.balena.features.kernel-modules: '1'
-     networks:
-       customnet:
-         ipv4_address: 172.28.0.2
-         ipv6_address: 2001:3984:3989::20
+#   mqtt-sngateway:
+#     image: bh.cr/gh_ajlennon/mqttsn-gateway
+#     sysctls:
+#       net.ipv6.conf.all.disable_ipv6: 0
+#       net.ipv4.conf.all.forwarding: 1
+#       net.ipv6.conf.all.forwarding: 1
+#     ports:
+#       - 10000:10000
+#     expose:
+#       - 10000/udp
+#     privileged: true
+#     labels:
+#       io.balena.features.kernel-modules: '1'
+#     networks:
+#       customnet:
+#         ipv4_address: 172.28.0.2
+#         ipv6_address: 2001:3984:3989::20
 
    openthread_border_router:
      build: ./openthread-otbr
