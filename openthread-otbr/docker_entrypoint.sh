@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Wait for DBUS to be up after boot
+sleep 10
+
 # Run up OTBR services
 /app/etc/docker/docker_entrypoint.sh &
 
