@@ -10,12 +10,12 @@ echo Setting up OpenThread Network
 /usr/sbin/ot-ctl ifconfig down
 /usr/sbin/ot-ctl thread stop
 /usr/sbin/ot-ctl dataset init new
+/usr/sbin/ot-ctl dataset channel $THEAD_CHANNEL
 /usr/sbin/ot-ctl dataset panid $THREAD_PAN_ID
 /usr/sbin/ot-ctl dataset extpanid $THREAD_EXT_PAN_ID
 /usr/sbin/ot-ctl dataset networkname $THREAD_NETWORK_NAME
 /usr/sbin/ot-ctl dataset networkkey $THREAD_NETWORK_KEY
 /usr/sbin/ot-ctl dataset commit active
-/usr/sbin/ot-ctl channel $THEAD_CHANNEL
 /usr/sbin/ot-ctl prefix add $THREAD_IPV6_PREFIX
 /usr/sbin/ot-ctl ifconfig up
 /usr/sbin/ot-ctl thread start
