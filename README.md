@@ -2,9 +2,9 @@
 
 [![balena deploy button](https://www.balena.io/deploy.svg)](https://dashboard.balena-cloud.com/deploy)
 
-The default device variables setup from `balena.yml` should be correct but these work here
+The default device variables setup from `balena.yml` should be correct but these work
 
-![image](https://github.com/DynamicDevices/openthread-border-router-block/assets/1537834/3fdf5bc5-bd6a-4d91-b392-0b0fe0ba658f)
+![image](https://github.com/DynamicDevices/openthread-border-router-block/assets/1537834/ccace261-c64a-4c4a-853e-b69110a69192)
 
 # Overview
 
