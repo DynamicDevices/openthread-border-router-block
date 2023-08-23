@@ -72,7 +72,7 @@ Reboot and it should come up as an RCP device e.g.
 
 `Bus 001 Device 003: ID 1915:0000 Nordic Semiconductor ASA Thread Co-Processor`
 
-# Building CLI test firmware for Nordic nRF52840
+# Building MQTT-SN CLI test firmware for Nordic nRF52840
 
 Until we have multicast advertising and `SEARCHGW` working properly you will need to go to the container and look at `ifconfig` to work out the IP address
 
