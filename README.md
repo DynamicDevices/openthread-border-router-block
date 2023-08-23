@@ -4,7 +4,7 @@
 
 The default device variables setup from `balena.yml` should be correct but these work
 
-![image](https://github.com/DynamicDevices/openthread-border-router-block/assets/1537834/ccace261-c64a-4c4a-853e-b69110a69192)
+![image](https://github.com/DynamicDevices/openthread-border-router-block/assets/1537834/62dedc09-92b8-4e81-b177-7135d67d4960)
 
 # Overview
 
