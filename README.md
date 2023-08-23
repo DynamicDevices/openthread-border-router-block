@@ -4,11 +4,13 @@
 
 The default device variables setup from `balena.yml` should be correct but these work here
 
-![image](https://github.com/DynamicDevices/openthread-border-router-block/assets/1537834/e3ae3e78-527d-425d-82e8-d3412602fa55)
+![image](https://github.com/DynamicDevices/openthread-border-router-block/assets/1537834/3fdf5bc5-bd6a-4d91-b392-0b0fe0ba658f)
 
 # Overview
 
 This repository provides a container for the OpenThread Border Router.
+
+NOTE: It takes about 90s to come up as we wait for some underlying host OS dependencies such as DBUS to come up which I haven't worked out how to add a specific dependency on yet.
 
 We build it using a modified Dockerfile taken from the OTBR repository [here](https://github.com/openthread/ot-br-posix/blob/main/etc/docker/Dockerfile)
 
@@ -16,13 +18,15 @@ We build it using a modified Dockerfile taken from the OTBR repository [here](ht
 
 We also include the MQTT-SNGateway based on the block [here](https://github.com/DynamicDevices/mqttsn-gateway-block)
 
-- TODO: This is because I haven't yet worked out how to route IPv6 packets successfully between containers to make them available to the mesh on interface `wpan0`
+- TODO: This is because I haven't yet worked out how to route IPv6 packets successfully between containers to make them available to the mesh on interface `wpan0`. Reading around it may not be possible with Docker to route IPv6 multicast between containers (?)
 
 See the MQTT-SNGateway [README](https://github.com/DynamicDevices/mqttsn-gateway-block#readme) for details on default environment variable settings.
 
 In addition you need to set `RUN_MQTT_SNGATWAY=1` to start up the gateway process.
 
 Then the OpenThread Border Router web interface will run up on port 80 and you can `Form` or `Join` a network.
+
+NOTE: For the "Toplogy" view in the WebUI you need access to port 8081 which runs the OTBR rest API. If you aren't seeing anything look at the web developer console in your browser to work out what requests are failing
 
 Use the settings in this image to conform to the MQTT-SN publication CLi example you can use [here](https://github.com/DynamicDevices/openthread/tree/ajl/adding-examples/examples/apps/mqtt-snpublish)
 
