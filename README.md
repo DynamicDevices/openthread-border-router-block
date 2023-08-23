@@ -49,7 +49,30 @@ If you want to automatically form a network you can set Balena Device Variables
 
 ![image](https://github.com/DynamicDevices/openthread-border-router-block/assets/1537834/4c6f6e93-cbde-4bdd-b5a5-1df614e700c6)
 
-# Building CLI test firmware for Nordic nrf52840
+# Build & Flash RCP for Nordic nRF52840 
+
+The OTBR needs an RCP device to access the OpenThread 802.15.4 network. We expect this to be a Nordic nRF52840 USB dongle appearing on the host as `/dev/ttyACM0`. Other devices are supported by the OTBR but we haven't tried them out. For details see [here](https://openthread.io/platforms)
+
+For the Nordic nRF52840 RCP build you can use the instructions [here](https://github.com/openthread/ot-nrf528xx/blob/main/src/nrf52840/README.md)
+
+It is a bit fiddly but this should work for the dongle RCP build
+
+```
+git clone --recursive https://github.com/openthread/ot-nrf528xx
+cd ot-nrf528xx
+./script/bootstrap
+./script/build nrf52840 USB_trans -DOT_BOOTLOADER=USB -DOT_JOINER=ON -DOT_RCP_RESTORATION_MAX_COUNT=0 -DOT_LOG_LEVEL=WARN -DOT_UPTIME=ENABLED
+arm-none-eabi-objcopy -O ihex build/bin/ot-rcp ot-rcp.hex
+```
+Then use the [nRF Connect for Desktop](https://www.nordicsemi.com/Products/Development-tools/nrf-connect-for-desktop) to run up the Programmer Tool.
+
+Insert the nRF52840 dongle and put it into programming mode by pressing the "tiny little horizontal button" not the big one and the RED LED should fade in and out slowly. Then it will appear on the Programmer Connections. If not you may need to install udev rules [here](https://github.com/NordicSemiconductor/nrf-udev)
+
+Reboot and it should come up as an RCP device e.g.
+
+`Bus 001 Device 003: ID 1915:0000 Nordic Semiconductor ASA Thread Co-Processor`
+
+# Building CLI test firmware for Nordic nRF52840
 
 Until we have multicast advertising and `SEARCHGW` working properly you will need to go to the container and look at `ifconfig` to work out the IP address
 
