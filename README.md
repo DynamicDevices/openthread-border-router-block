@@ -2,13 +2,15 @@
 
 [![balena deploy button](https://www.balena.io/deploy.svg)](https://dashboard.balena-cloud.com/deploy)
 
-The default device variables setup from `balena.yml` should be correct but these work here
+The default device variables setup from `balena.yml` should be correct but these work
 
-![image](https://github.com/DynamicDevices/openthread-border-router-block/assets/1537834/e3ae3e78-527d-425d-82e8-d3412602fa55)
+![image](https://github.com/DynamicDevices/openthread-border-router-block/assets/1537834/62dedc09-92b8-4e81-b177-7135d67d4960)
 
 # Overview
 
 This repository provides a container for the OpenThread Border Router.
+
+NOTE: It takes about 90s to come up as we wait for some underlying host OS dependencies such as DBUS to come up which I haven't worked out how to add a specific dependency on yet.
 
 We build it using a modified Dockerfile taken from the OTBR repository [here](https://github.com/openthread/ot-br-posix/blob/main/etc/docker/Dockerfile)
 
@@ -16,13 +18,15 @@ We build it using a modified Dockerfile taken from the OTBR repository [here](ht
 
 We also include the MQTT-SNGateway based on the block [here](https://github.com/DynamicDevices/mqttsn-gateway-block)
 
-- TODO: This is because I haven't yet worked out how to route IPv6 packets successfully between containers to make them available to the mesh on interface `wpan0`
+- TODO: This is because I haven't yet worked out how to route IPv6 packets successfully between containers to make them available to the mesh on interface `wpan0`. Reading around it may not be possible with Docker to route IPv6 multicast between containers (?)
 
 See the MQTT-SNGateway [README](https://github.com/DynamicDevices/mqttsn-gateway-block#readme) for details on default environment variable settings.
 
 In addition you need to set `RUN_MQTT_SNGATWAY=1` to start up the gateway process.
 
 Then the OpenThread Border Router web interface will run up on port 80 and you can `Form` or `Join` a network.
+
+NOTE: For the "Toplogy" view in the WebUI you need access to port 8081 which runs the OTBR rest API. If you aren't seeing anything look at the web developer console in your browser to work out what requests are failing
 
 Use the settings in this image to conform to the MQTT-SN publication CLi example you can use [here](https://github.com/DynamicDevices/openthread/tree/ajl/adding-examples/examples/apps/mqtt-snpublish)
 
@@ -45,7 +49,30 @@ If you want to automatically form a network you can set Balena Device Variables
 
 ![image](https://github.com/DynamicDevices/openthread-border-router-block/assets/1537834/4c6f6e93-cbde-4bdd-b5a5-1df614e700c6)
 
-# Building CLI test firmware for Nordic nrf52840
+# Build & Flash RCP for Nordic nRF52840 
+
+The OTBR needs an RCP device to access the OpenThread 802.15.4 network. We expect this to be a Nordic nRF52840 USB dongle appearing on the host as `/dev/ttyACM0`. Other devices are supported by the OTBR but we haven't tried them out. For details see [here](https://openthread.io/platforms)
+
+For the Nordic nRF52840 RCP build you can use the instructions [here](https://github.com/openthread/ot-nrf528xx/blob/main/src/nrf52840/README.md)
+
+It is a bit fiddly but this should work for the dongle RCP build
+
+```
+git clone --recursive https://github.com/openthread/ot-nrf528xx
+cd ot-nrf528xx
+./script/bootstrap
+./script/build nrf52840 USB_trans -DOT_BOOTLOADER=USB -DOT_JOINER=ON -DOT_RCP_RESTORATION_MAX_COUNT=0 -DOT_LOG_LEVEL=WARN -DOT_UPTIME=ENABLED
+arm-none-eabi-objcopy -O ihex build/bin/ot-rcp ot-rcp.hex
+```
+Then use the [nRF Connect for Desktop](https://www.nordicsemi.com/Products/Development-tools/nrf-connect-for-desktop) to run up the Programmer Tool.
+
+Insert the nRF52840 dongle and put it into programming mode by pressing the "tiny little horizontal button" not the big one and the RED LED should fade in and out slowly. Then it will appear on the Programmer Connections. If not you may need to install udev rules [here](https://github.com/NordicSemiconductor/nrf-udev)
+
+Reboot and it should come up as an RCP device e.g.
+
+`Bus 001 Device 003: ID 1915:0000 Nordic Semiconductor ASA Thread Co-Processor`
+
+# Building MQTT-SN CLI test firmware for Nordic nRF52840
 
 Until we have multicast advertising and `SEARCHGW` working properly you will need to go to the container and look at `ifconfig` to work out the IP address
 
