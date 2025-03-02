@@ -111,6 +111,14 @@ ENTRYPOINT ["/app/docker_entrypoint.sh"]
 
 #RUN  mv /tmp/etc .
 
+# CUSTOMISE
+# Patch OTBR so it calls REST API at port 80 which allows Traefik to forward the request (!)
+RUN sed -i 's/8081/80/' /usr/share/otbr-web/frontend/res/js/app.js
+
+RUN apt-get -q update
+RUN apt-get install -yq netcat
+RUN apt-get install -yq mosquitto-clients
+
 #
 # --- BEGIN MQTT-SNGATEWAY
 #
