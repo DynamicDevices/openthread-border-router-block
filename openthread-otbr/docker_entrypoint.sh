@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Wait for DBUS to be up after boot
-echo Waiting for system to come up
+echo Waiting for system to come up 1..2..3..
 sleep 60
 
 # Run up OTBR services
